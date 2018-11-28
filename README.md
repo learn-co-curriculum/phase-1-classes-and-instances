@@ -49,7 +49,8 @@ information encapsulated within them.
 ## Using the `constructor`
 
 Typically, when we create an instance of a `class`, we want it to contain some
-bit of unique information. To do this, we use a special method, `constructor`.
+bit of unique information. To do this, we use a special method called
+`constructor`:
 
 ```js
 class Fish {
@@ -148,6 +149,87 @@ square.sideLength; // => 5
 square.area(); // => 25
 ```
 
+#### Private Properties
+
+All properties are accessible from outside an instance, as we see with
+`square.sideLength`, as well as from within `class` methods (`this.sideLength`).
+
+This is not always desirable - sometimes, we want to protect the data from being
+modified after being set, or we want to use methods to control the exact ways
+our data should be changed. Say, for instance, we had a `Transaction` `class`
+that we are using to represent individual bank transactions. When a new
+`Transaction` instance is created, it has `amount` and `date` properties.
+
+```js
+class Transaction {
+	constructor(amount, date, memo) {
+		this.amount = amount;
+		this.date = date;
+		this.memo = memo;
+	}
+}
+```
+
+The `date` and `amount` properties represent fixed values for each instance and
+probably shouldn't be altered once created. However, it is still possible to
+change these properties after they are assigned:
+
+```js
+let transaction = new Transaction(100.24, '03/04/2018', 'Grocery Shopping');
+transaction.amount; // => 100.24
+transaction.amount = 1000000000000.24;
+transaction.amount; // => 1000000000000.24
+```
+
+Currently, there is no official way to make a property private - all `class` and
+object properties are exposed. One common convention, however, is to include an
+underscore at the beginning of the property name to indicate those properties
+are not intended to be accessed from outside the `class`:
+
+```js
+class Transaction {
+	constructor(amount, date, memo) {
+		this._amount = amount;
+		this._date = date;
+		this._memo = memo;
+	}
+}
+```
+
+Now, it is _still_ possible to modify these properties, the property name just
+changed to `_amount`. The above `class`, setup, however, _suggests_ that these
+properties should only be accessed or changed through `class` methods.
+
+```js
+class Transaction {
+	constructor(amount, date, memo) {
+		this._amount = amount;
+		this._date = date;
+		this._memo = memo;
+	}
+
+	getAmount() {
+		return this._amount;
+	}
+
+	getDate() {
+		return this._date;
+	}
+
+	getMemo() {
+		return this._memo;
+	}
+
+	setMemo(message) {
+		this._memo = message;
+	}
+}
+```
+
+Implementing private properties is planned in
+[future versions of JavaScript][esnext], and will use a `#` symbol to indicate a
+property is private.
+
 ## Conclusion
 
 So, to recap, we can define a `class` simply by writing `class`, a name, and a
@@ -155,10 +237,12 @@ set of curly brackets. We can then use this `class` to create unique instances.
 These instances can contain their own data, which we typicaly set using
 `constructor`, passing in arguments and assigning them to properties we've
 defined. With these properties, instances can carry data around with them
-wherever they go.
+wherever they go. While there are no private properties (yet), it is possible
+to set up classes to emphasize using methods over directly changing properties.
 
 ## Resources
 
 - [Classes]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
 
 [ecma]: https://www.w3schools.com/js/js_es6.asp
+[esnext]: https://www.sitepoint.com/javascript-private-class-fields/
