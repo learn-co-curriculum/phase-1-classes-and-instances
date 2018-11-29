@@ -242,7 +242,7 @@ to set up classes to emphasize using methods over directly changing properties.
 
 ## Resources
 
-- [Classes]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
+- [Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes)
 
 [ecma]: https://www.w3schools.com/js/js_es6.asp
 [esnext]: https://www.sitepoint.com/javascript-private-class-fields/
