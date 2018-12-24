@@ -54,10 +54,10 @@ method called `constructor`:
 
 ```js
 class Fish {
-	constructor(name, age) {
-		this.name = name;
-		this.age = age;
-	}
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
 }
 ```
 
@@ -136,13 +136,13 @@ we assigned back when an instance was created. Another example:
 
 ```js
 class Square {
-	constructor(sideLength) {
-		this.sideLength = sideLength;
-	}
+  constructor(sideLength) {
+    this.sideLength = sideLength;
+  }
 
-	area() {
-		return this.sideLength * this.sideLength;
-	}
+  area() {
+    return this.sideLength * this.sideLength;
+  }
 }
 
 let square = new Square(5);
@@ -165,11 +165,11 @@ properties.
 
 ```js
 class Transaction {
-	constructor(amount, date, memo) {
-		this.amount = amount;
-		this.date = date;
-		this.memo = memo;
-	}
+  constructor(amount, date, memo) {
+    this.amount = amount;
+    this.date = date;
+    this.memo = memo;
+  }
 }
 ```
 
@@ -192,11 +192,11 @@ those properties are not intended to be accessed from outside the `class`:
 
 ```js
 class Transaction {
-	constructor(amount, date, memo) {
-		this._amount = amount;
-		this._date = date;
-		this._memo = _memo;
-	}
+  constructor(amount, date, memo) {
+    this._amount = amount;
+    this._date = date;
+    this._memo = _memo;
+  }
 }
 ```
 
