@@ -195,7 +195,7 @@ class Transaction {
   constructor(amount, date, memo) {
     this._amount = amount;
     this._date = date;
-    this._memo = _memo;
+    this._memo = memo;
   }
 }
 ```
