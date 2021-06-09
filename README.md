@@ -1,4 +1,4 @@
-# Building Cells: Classes and Instances
+# Classes and Instances
 
 ## Learning Goals
 
