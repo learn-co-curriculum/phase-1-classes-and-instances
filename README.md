@@ -34,8 +34,8 @@ With only a name and brackets, we can now create instances of the 'Fish' `class`
 by using `new`:
 
 ```js
-let oneFish = new Fish();
-let twoFish = new Fish();
+const oneFish = new Fish();
+const twoFish = new Fish();
 
 oneFish; // => Fish {}
 twoFish; // => Fish {}
@@ -65,8 +65,8 @@ The `constructor` method allows us pass arguments in when we use the `new`
 syntax:
 
 ```js
-let redFish = new Fish('Red', 3);
-let blueFish = new Fish('Blue', 1);
+const redFish = new Fish("Red", 3);
+const blueFish = new Fish("Blue", 1);
 
 redFish; // => Fish { name: 'Red', age: 3 }
 blueFish; // => Fish { name: 'Blue', age: 1 }
@@ -106,8 +106,8 @@ If we've assigned an instance to a variable, we can access properties
 using the variable object:
 
 ```js
-let oldFish = new Fish('George', 19);
-let newFish = new Fish('Clyde', 1);
+const oldFish = new Fish("George", 19);
+const newFish = new Fish("Clyde", 1);
 
 oldFish.name; //=> 'George'
 oldFish.age; //=> 19
@@ -145,13 +145,13 @@ class Square {
   }
 }
 
-let square = new Square(5);
+const square = new Square(5);
 square; // => Square { sideLength: 5 }
 square.sideLength; // => 5
 square.area(); // => 25
 ```
 
-#### Private Properties
+## Private Properties
 
 All properties are accessible from outside an instance, as we see with
 `square.sideLength`, as well as from within `class` methods (`this.sideLength`).
@@ -179,7 +179,7 @@ altered. However, it is still possible to change these properties after they are
 assigned:
 
 ```js
-let transaction = new Transaction(100.24, '03/04/2018', 'Grocery Shopping');
+const transaction = new Transaction(100.24, "03/04/2018", "Grocery Shopping");
 transaction.amount; // => 100.24
 transaction.amount = 1000000000000.24;
 transaction.amount; // => 1000000000000.24
@@ -207,16 +207,19 @@ indicates to other programmers that that property or variable is intended to be
 private.
 
 Recently, however, the ability to create private properties and methods in
-JavaScript classes has been added. A private element is created by prefixing its
+JavaScript classes has been added. A private field is created by prefixing its
 name with `#`. For this to work, the fields must first be declared at the top of
-the class definition:
+the class definition. After declaring the fields, you can access them and assign
+values in methods within your class:
 
 ```js
 class Transaction {
+  // declare private fields
   #amount;
   #date;
   #memo;
   constructor(amount, date, memo) {
+    // assign values to private fields
     this.#amount = amount;
     this.#date = date;
     this.#memo = memo;
@@ -228,8 +231,18 @@ If you try to assign values to the private properties in the constructor without
 declaring them first, you will get a syntax error.
 
 Private elements declared using the `#` syntax cannot be accessed or changed
-from outside the class. While [private class features][private-mdn] are
-relatively new in JavaScript, they are widely supported by all major browsers.
+from outside the class:
+
+```js
+const transaction = new Transaction(100.24, "03/04/2018", "Grocery Shopping");
+transaction.amount;
+// => undefined
+transaction.#amount;
+// => SyntaxError
+```
+
+While [private class features][private-mdn] are relatively new in JavaScript,
+they are widely supported by all major browsers.
 
 ## Conclusion
 
@@ -249,6 +262,6 @@ properties.
 - [MDN: Private Class Features][private-mdn]
 
 [ecma]: https://www.w3schools.com/js/js_es6.asp
-[Classes]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
+[classes]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
 [private-sitepoint]: https://www.sitepoint.com/javascript-private-class-fields/
 [private-mdn]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_class_fields
