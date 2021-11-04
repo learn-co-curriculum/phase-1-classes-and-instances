@@ -7,7 +7,7 @@
 
 ## Introduction
 
-In Object Orientated JavaScript, objects share a similar structure, the `class`.
+In Object-Oriented JavaScript, objects share a similar structure, the `class`.
 Each `class` has the ability to generate copies of itself, referred to as
 _instances_. Each of these `class` instances can contain unique data, often
 set when the instance is created.
@@ -34,8 +34,8 @@ With only a name and brackets, we can now create instances of the 'Fish' `class`
 by using `new`:
 
 ```js
-let oneFish = new Fish();
-let twoFish = new Fish();
+const oneFish = new Fish();
+const twoFish = new Fish();
 
 oneFish; // => Fish {}
 twoFish; // => Fish {}
@@ -65,8 +65,8 @@ The `constructor` method allows us pass arguments in when we use the `new`
 syntax:
 
 ```js
-let redFish = new Fish('Red', 3);
-let blueFish = new Fish('Blue', 1);
+const redFish = new Fish("Red", 3);
+const blueFish = new Fish("Blue", 1);
 
 redFish; // => Fish { name: 'Red', age: 3 }
 blueFish; // => Fish { name: 'Blue', age: 1 }
@@ -95,10 +95,10 @@ For now, think of `this` as a reference to the object it is inside. Since we're
 calling `constructor` when we create a new instance (`new Fish('Red', 3)`),
 `this` is referring to the _instance we've created_. _This_ fish.
 
-> In `class` methods, `this` acts similar to Ruby's `self` keyword. `this` can
-> be used to refer to properties of an instance, like `name` and `age`, or methods
-> of an instance (`this.sayName()`). There is more to `this` than meets
-> the eye, however, and we will go into more detail later on.
+> In `class` methods, `this` can be used to refer to properties of an instance,
+> like `name` and `age`, or methods of an instance (`this.sayName()`). There is
+> more to `this` than meets the eye, however, and we will go into more detail
+> later on.
 
 ## Accessing Instance Properties
 
@@ -106,8 +106,8 @@ If we've assigned an instance to a variable, we can access properties
 using the variable object:
 
 ```js
-let oldFish = new Fish('George', 19);
-let newFish = new Fish('Clyde', 1);
+const oldFish = new Fish("George", 19);
+const newFish = new Fish("Clyde", 1);
 
 oldFish.name; //=> 'George'
 oldFish.age; //=> 19
@@ -120,14 +120,14 @@ we can also refer to these properties within other methods of our `class`:
 
 ```js
 class Fish {
-	constructor(name, age) {
-		this.name = name;
-		this.age = age;
-	}
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
 
-	sayName() {
-		return `Hi my name is ${this.name}`;
-	}
+  sayName() {
+    return `Hi my name is ${this.name}`;
+  }
 }
 ```
 
@@ -145,13 +145,13 @@ class Square {
   }
 }
 
-let square = new Square(5);
+const square = new Square(5);
 square; // => Square { sideLength: 5 }
 square.sideLength; // => 5
 square.area(); // => 25
 ```
 
-#### Private Properties
+## Private Properties
 
 All properties are accessible from outside an instance, as we see with
 `square.sideLength`, as well as from within `class` methods (`this.sideLength`).
@@ -179,16 +179,17 @@ altered. However, it is still possible to change these properties after they are
 assigned:
 
 ```js
-let transaction = new Transaction(100.24, '03/04/2018', 'Grocery Shopping');
+const transaction = new Transaction(100.24, "03/04/2018", "Grocery Shopping");
 transaction.amount; // => 100.24
 transaction.amount = 1000000000000.24;
 transaction.amount; // => 1000000000000.24
 ```
 
-Currently, there is no official way to make a property private - all `class` and
-object properties are exposed as we see above. One common convention, however,
-is to include an underscore at the beginning of the property name to indicate
-those properties are not intended to be accessed from outside the `class`:
+Historically, JavaScript has not provided any way to make a property private -
+all `class` and object properties were exposed as we see above. The only option
+available was to follow a common convention, used by many JavaScript programmers
+to indicate properties that are not intended to be accessed from outside the
+`class`:
 
 ```js
 class Transaction {
@@ -200,14 +201,48 @@ class Transaction {
 }
 ```
 
-Now, it is _still_ possible to modify these properties, the `amount` property
-name just changed to `_amount`. The above `class`, setup, however, _suggests_
-that these properties should only be accessed or changed through `class`
-methods, not directly.
+In the code above, you'll see that an underscore (`_`) has been prepended to the
+name of each property. This has no effect on how the code functions - it simply
+indicates to other programmers that that property or variable is intended to be
+private.
 
-Implementing private properties is planned in
-[future versions of JavaScript][esnext], and will use a `#` symbol to indicate a
-property is private.
+Recently, however, the ability to create private properties and methods in
+JavaScript classes has been added. A private field is created by prefixing its
+name with `#`. For this to work, the fields must first be declared at the top of
+the class definition. After declaring the fields, you can access them and assign
+values in methods within your class:
+
+```js
+class Transaction {
+  // declare private fields
+  #amount;
+  #date;
+  #memo;
+  constructor(amount, date, memo) {
+    // assign values to private fields
+    this.#amount = amount;
+    this.#date = date;
+    this.#memo = memo;
+  }
+}
+```
+
+If you try to assign values to the private properties in the constructor without
+declaring them first, you will get a syntax error.
+
+Private elements declared using the `#` syntax cannot be accessed or changed
+from outside the class:
+
+```js
+const transaction = new Transaction(100.24, "03/04/2018", "Grocery Shopping");
+transaction.amount;
+// => undefined
+transaction.#amount;
+// => SyntaxError
+```
+
+While [private class features][private-mdn] are relatively new in JavaScript,
+they are widely supported by all major browsers.
 
 ## Conclusion
 
@@ -222,7 +257,11 @@ properties.
 
 ## Resources
 
-- [Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes)
+- [Classes][]
+- [Sitepoint: Private Class Fields][private-sitepoint]
+- [MDN: Private Class Features][private-mdn]
 
 [ecma]: https://www.w3schools.com/js/js_es6.asp
-[esnext]: https://www.sitepoint.com/javascript-private-class-fields/
+[classes]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
+[private-sitepoint]: https://www.sitepoint.com/javascript-private-class-fields/
+[private-mdn]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_class_fields
